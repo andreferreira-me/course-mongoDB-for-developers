@@ -31,7 +31,9 @@ db.names.find()
 obj = { "a" : 1, "b" : "hello", "c" : [ "apples", "tomatoes" ]}
 
 NumberInt(1)
+
 NumberLong(1)
+
 new Date()
 
 obj = { "a" : 1, "b" : ISODate("2016-03-27T02:07:11.519Z"), "c" : NumberLong(42)}
@@ -91,3 +93,19 @@ db.people.insert({ name : "Bob" })
 db.people.find({ name : { $lt : "D" }})
 
 db.people.find({ name : { $lt : "D" , $gt : "B" }})
+
+// Using regexes, $exists, $type
+
+db.people.find()
+
+db.people.find({ profession : { $exists : true }})
+db.people.find({ profession : { $exists : false }})
+
+db.people.find({ name : { $type : 2 }}) // BSON type
+
+db.people.find({ name : { $regex : "a" }}) // Names wicht contains letter "a"
+db.people.find({ name : { $regex : "e$" }}) // Names which ends with letter "e"
+
+db.users.find({ name : { $regex : "q"}, email : { $exists : true } })
+
+// Using $or
