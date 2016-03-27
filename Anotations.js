@@ -2,6 +2,22 @@
 
 mongo
 
+// To display the database you are using, type db
+
+db
+
+// To switch databases, issue the use <db>
+
+use <database>
+
+// To list the available databases
+
+show dbs
+
+// Print a list of all collections for current database
+
+show collections
+
 // Execute little piece of Javascript code in mongo shell
 
 for (i = 0; i < 3; i++) print("Hello, MongoDB developer! " + i)
