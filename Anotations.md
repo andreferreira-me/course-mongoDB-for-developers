@@ -47,3 +47,14 @@ db.people.findOne({ "name" : "Ford" })  // findOne document where key "name" is 
 db.people.findOne({ "name" : "Ford" } , { "name" : true, "_id" : false }) // Show key "name", hidden key "_id"
 
 // Using find
+db.people.find()
+
+for (i=0; i<1000; i++) { names=["exam", "essay", "quiz"]; for (j=0; j<3; j++) { db.scores.insert( { "student" : i , "type" : names[j], "score" : Math.round(Math.random()*100) } ); }}
+
+db.scores.find().pretty()
+
+// Query using field selection
+
+db.scores.find( { "type" : "essay" })
+db.scores.find( { student : 19 })
+db.scores.find( { student : 19 , "type" : "essay" } , { "score" : true , "_id" : false })
