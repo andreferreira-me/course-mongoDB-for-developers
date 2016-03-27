@@ -109,3 +109,35 @@ db.people.find({ name : { $regex : "e$" }}) // Names which ends with letter "e"
 db.users.find({ name : { $regex : "q"}, email : { $exists : true } })
 
 // Using $or
+
+db.people.find({ $or: [{ name : { $regex : "e$" }}, { age : {$exists: true}}]})
+db.scores.find({ $or: [{ score : { $lt : 50 }}, { score : { $gt : 90 }}] })
+
+// Using $and
+
+db.people.find({ $and: [{ name: { $gt : "C" }}, {name: { $regex : "a"}}] })
+db.people.find({ name: { $gt : "C" , $regex : "a"}})  // Same querie without $and
+
+// Querying Inside Arrays
+
+db.accounts.insert({ name : "George", favorites : ["ice cream", "pretzels"]})
+db.accounts.insert({ name : "Howard", favorites : ["beer", "pretzels"]})
+
+db.accounts.find().pretty()
+
+db.accounts.find({ favorites: "pretzels"})
+db.accounts.find({ favorites: "beer"})
+db.accounts.find({ favorites: "beer", name : {$gt : "H"}})
+db.accounts.find({ favorites: "pretzels", name : {$gt : "H"}})
+
+// Using $in and $all to querie inside an array
+
+db.accounts.insert({ name: "Irving", favorites: ["beer", "pretzels", "cheese"]})
+db.accounts.insert({ name: "John", favorites: ["beer", "cheese"]})
+
+db.accounts.find({favorites : {$all : ["pretzels", "beer"]}})
+
+db.accounts.find({name : {$in : ["Howard", "John"]}})
+db.accounts.find({favorites : {$in : ["beer", "ice cream"]}})
+
+db.users.find( { friends : { $all : [ "Joe" , "Bob" ] }, favorites : { $in : [ "running" , "pickles" ] } } )
