@@ -31,3 +31,19 @@ new Date()
 obj = { "a" : 1, "b" : ISODate("2016-03-27T02:07:11.519Z"), "c" : NumberLong(42)}
 
 // Inserting Docs
+
+doc = { "name" : "Smith", "age" : 30, "profession" : "hacker" }
+
+db      // return the name of the current database
+
+db.people.insert( doc )     // insert a document in the 'people' collection
+db.people.find().pretty()
+
+db.people.insert( { "name" : "Ford", "age" : 34, "profession" : "lawyer" } )
+
+// Usign findOne
+
+db.people.findOne({ "name" : "Ford" })  // findOne document where key "name" is equal "Ford"
+db.people.findOne({ "name" : "Ford" } , { "name" : true, "_id" : false }) // Show key "name", hidden key "_id"
+
+// Using find
