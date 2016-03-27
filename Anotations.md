@@ -141,3 +141,35 @@ db.accounts.find({name : {$in : ["Howard", "John"]}})
 db.accounts.find({favorites : {$in : ["beer", "ice cream"]}})
 
 db.users.find( { friends : { $all : [ "Joe" , "Bob" ] }, favorites : { $in : [ "running" , "pickles" ] } } )
+
+// Queries with Dot Notation
+
+db.users.insert({ name : "Richard" , email: { work : "richard@10gen.com", personal : "kreuter@example.com"}})
+db.users.find({ email: { work : "richard@10gen.com", personal : "kreuter@example.com"} })
+db.users.find({ email: { personal : "kreuter@example.com", work : "richard@10gen.com"} }) // Error because the order of the fileds are wrong
+db.users.find({ email: { work : "richard@10gen.com"} }) // Error
+
+db.users.find({ "email.work" : "richard@10gen.com"}) // Rigth way
+
+db.catalog.find({ price : { $gt : 10000 }, "reviews.rating" : { $gte : 5 } }) // Problem answer
+
+// Querying, Cursors
+
+cur = db.people.find(); null;
+cur.hasNext()
+cur.next()
+while (cur.hasNext()) printjson(cur.next())
+
+cur = db.people.find(); null;
+cur.limit(5); null;
+
+cur = db.people.find(); null;
+cur.sort({ name: -1}); null; // Reverse alphabetical order by name
+
+cur = db.people.find(); null;
+cur.sort({ name: -1}).limit(3); null;
+
+cur = db.people.find(); null;
+cur.sort({ name: -1}).limit(3).skip(2); null
+
+// Counting results
