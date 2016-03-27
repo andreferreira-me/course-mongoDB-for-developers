@@ -173,3 +173,69 @@ cur = db.people.find(); null;
 cur.sort({ name: -1}).limit(3).skip(2); null
 
 // Counting results
+
+db.scores.find({"type":"exam"});
+db.scores.count({"type":"exam"});
+
+// Wholesale Updating of a Document
+
+db.people.find()
+db.people.update({name:"Smith"}, {name: "Thompson", salary: 5000}) // Update the docuement but erase other fields in that document
+db.people.find()
+
+// Using the $set and $inc Command
+
+db.people.find()
+db.people.update({name:"Bob"}, { $set: {name: "André", salary: 7000}})
+db.people.update({name:"André"}, { $inc: {salary: 10000}})
+
+db.users.update({ username : "splunker" }, { $set: {country : "RU"}}) // Problem answer
+
+// Using the $unset Command
+
+db.people.find()
+db.people.update({name:"Ford"}, { $unset: {profession: 1}})
+db.people.find({name: "Ford"})
+
+db.users.update({'username' : 'jimmy'}, {'$unset' : {'interests' : 1}}) // Problem answer
+
+// Using $push, $pop, $pull, $pullAll, $addToSet
+
+db.arrays.insert({_id: 0, a : [1,2,3,4]})
+db.arrays.find();
+db.arrays.update({_id:0}, {$set : {"a.2" : 5}})
+
+db.arrays.update({_id:0}, {$push : {a : 6}})
+db.arrays.update({_id:0}, {$pushAll : {a : [7 , 8, 9]}})
+
+db.arrays.update({_id:0}, {$pop : {a : 1}}) // Remove the element from right of the array
+db.arrays.update({_id:0}, {$pop : {a : -1}}) // Remove the element from left of the array
+
+db.arrays.update({_id:0}, {$pull : {a : 5}}) // Remove the value '5' from the array
+db.arrays.update({_id:0}, {$pullAll : {a : [2, 4, 7]}}) // Remove the value '2', '4', '7' from the array
+
+db.arrays.update({_id:0}, {$addToSet : {a : 5}})
+
+// Upserts
+db.people.find()
+db.people.update({ name : "George"}, { $set: { age: 40} }, { upsert : true})
+
+db.people.update({ age : {$gt : 50}}, {$set : { name : "William"}}, { upsert : true})
+
+// Multi-update
+
+db.people.update({}, {$set:{ title : "Dr"}}, {multi : true});
+
+db.scores.update({ score : { $lt : 70}}, {$inc : { score : 20}}, { multi : true}) // Problem answer
+
+// Removing data
+
+db.people.remove({ name : "Alan"})
+
+db.people.remove({ name : { $gt : "M" }})
+
+db.people.remove() // Remove all documents from 'people'
+
+db.people.drop() // Remove the collections 'people'
+
+db.scores.remove({ score : { $lt : 60}}) // Problem answer
